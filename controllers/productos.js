@@ -5,7 +5,9 @@ const getAllProducts = async (req, res) => {
   try {
     const obtenerProductos = await ProductoModelo.find();
     res.status(200).json({ msg: "productos", obtenerProductos });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ msg: "No se pudo obtener los productos", error, status:500 });
+  }
 };
 
 const getOneProduct = async (req, res) => {
@@ -40,13 +42,18 @@ const editProduct = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ msg: errors.array() });
     }
-  const editProducto = await ProductoModelo.findByIdAndUpdate(
-    { _id: req.params.id },
-    req.body,
-    { new: true }
-  );
+    try {
+      const editProducto = await ProductoModelo.findByIdAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        { new: true }
+      );
+      res.status(200).json({ msg: "Producto editado", editProducto });
+      
+    } catch (error) {
+      res.status(400).json({ msg: "No se pudo editar", error, status:400 });
+    }
 
-  res.status(200).json({ msg: "Producto editado", editProducto });
 };
 
 const deleteProduct = async (req, res) => {
@@ -54,8 +61,13 @@ const deleteProduct = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ msg: errors.array() });
     }
-  await ProductoModelo.findByIdAndDelete({ _id: req.params.id });
-  res.status(200).json({ msg: "Producto eliminado con exito" });
+    try {
+      
+      await ProductoModelo.findByIdAndDelete({ _id: req.params.id });
+      res.status(200).json({ msg: "Producto eliminado con exito", status: 200 });
+    } catch (error) {
+      res.status(500).json({ msg: "No se pudo eliminar", error });
+    }
 };
 
 module.exports = {

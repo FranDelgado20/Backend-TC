@@ -17,13 +17,13 @@ const cart = await CartModel.findOne({_id: req.params.idCart})
 const prod = await ProductoModelo.findOne({_id: req.params.idProd})
  const prodExistente=    cart.products.find((producto) => producto._id == req.params.idProd )
  if(prodExistente){
-   return res.status(400).json({msg:'PRODUCTO EXISTENTE'})
+   return res.status(400).json({msg:'PRODUCTO EXISTENTE', status:400})
  }
 cart.products.push(prod)
 await cart.save()
-res.status(200).json({msg:'Producto cargado correctamente', cart  })
+res.status(200).json({msg:'Producto cargado correctamente', cart , status:200 })
  } catch (error) {
-    res.status(500).json({ msg: "NO SE PUDO CARGAR EL PRODUCTO", error });
+    res.status(500).json({ msg: "NO SE PUDO CARGAR EL PRODUCTO", error, status:500 });
  }
 }
 const deleteProd = async(req, res) => {
@@ -32,9 +32,9 @@ const deleteProd = async(req, res) => {
       const prodIndex = cart.products.findIndex((prod) => prod._id == req.params.idProd)
       cart.products.splice(prodIndex, 1)
     await cart.save()
-      res.status(200).json({msg:'Producto eliminado', cart})
+      res.status(200).json({msg:'Producto eliminado', cart, status :200})
    } catch (error) {
-      
+      res.status(500).json({ msg: "NO SE PUDO ELIMINAR EL PRODUCTO", error, status:500 });
    }
 }
 const editProductCart =  async( req,res) => {

@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
   try {
     const userExist = await UserModel.findOne({ username: req.body.username });
     if (userExist) {
-      return res.status(422).json({ msg: "USUARIO EXISTENTE" });
+      return res.status(422).json({ msg: "USUARIO EXISTENTE" , status:422});
     } else {
       const { body } = req;
 
@@ -82,7 +82,7 @@ const deleteUser = async (req, res) => {
     await UserModel.findByIdAndDelete({ _id: req.params.id });
     res.status(200).json({ msg: "Usuario eliminado correctamente" });
   } catch (error) {
-    res.status(500).json({ msg: "NO SE PUDO ELIMINAR EL USUARIO", error });
+    res.status(500).json({ msg: "NO SE PUDO ELIMINAR EL USUARIO", error, status:500});
   }
 };
 
@@ -94,7 +94,7 @@ const loginUser = async (req, res) => {
   try {
     const userExist = await UserModel.findOne({ username: req.body.username });
     if (!userExist) {
-      return res.status(400).json({ msg: "EL USUARIO NO EXISTE" });
+      return res.status(400).json({ msg: "EL USUARIO NO EXISTE", status: 400 });
     }
 
     const passCheck = await bcrypt.compare(req.body.pass, userExist.pass);
@@ -119,7 +119,7 @@ const loginUser = async (req, res) => {
       res.status(400).json({ msg: "Usuario y/o contraseña es incorrecto" });
     }
   } catch (error) {
-    res.status(500).json({ msg: "NO SE PUDO INICIAR SESION", error });
+    res.status(500).json({ msg: "NO SE PUDO INICIAR SESION", error, status:500 });
   }
 };
 

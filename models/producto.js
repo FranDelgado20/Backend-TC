@@ -14,9 +14,9 @@ const ProductosSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    // cantidad:{
-    //     type:String
-    // }
+    cantidad:{
+        type:String
+    }
     
     
 })
