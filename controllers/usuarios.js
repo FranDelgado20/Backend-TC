@@ -80,7 +80,7 @@ const deleteUser = async (req, res) => {
   }
   try {
     await UserModel.findByIdAndDelete({ _id: req.params.id });
-    res.status(200).json({ msg: "Usuario eliminado correctamente" });
+    res.status(200).json({ msg: "Usuario eliminado correctamente" , status:200});
   } catch (error) {
     res.status(500).json({ msg: "NO SE PUDO ELIMINAR EL USUARIO", error, status:500});
   }
@@ -123,6 +123,8 @@ const loginUser = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   getAllUsers,
   getOneUser,
@@ -130,4 +132,5 @@ module.exports = {
   editUser,
   deleteUser,
   loginUser,
+ 
 };

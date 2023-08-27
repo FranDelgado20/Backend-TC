@@ -8,6 +8,8 @@ const {
   editUser,
   deleteUser,
   loginUser,
+  
+  
 } = require("../controllers/usuarios");
 const auth = require("../middlewares/auth");
 
@@ -17,7 +19,7 @@ router.get("/", auth('admin'), getAllUsers);
 
 
 router.get(
-  "/:id",
+  "/:id", auth('admin'),
   [check("id", "Formato ID incorrecto").isMongoId()],
   getOneUser
 );
@@ -38,15 +40,16 @@ router.post('/login', [
 ],loginUser)
 
 
+
 router.put(
-  "/:id",
+  "/:id", auth('admin'),
   [check("id", "Formato ID incorrecto").isMongoId()],
   editUser
 );
 
 
 router.delete(
-  "/:id",
+  "/:id", auth('admin'),
   [check("id", "Formato ID incorrecto").isMongoId()],
   deleteUser
 );

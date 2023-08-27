@@ -15,7 +15,15 @@ const ProductosSchema = new mongoose.Schema({
         unique:true
     },
     cantidad:{
+        type:String,
+        
+    },
+    descripcion:{
         type:String
+    },
+    imagen:{
+        type:String,
+        default:''
     }
     
     

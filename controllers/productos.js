@@ -1,6 +1,7 @@
 const ProductoModelo = require("../models/producto");
 const { validationResult } = require("express-validator");
 
+const cloudinary = require('../utils/cloudinaryConfig')
 const getAllProducts = async (req, res) => {
   try {
     const obtenerProductos = await ProductoModelo.find();
@@ -33,8 +34,10 @@ const createProduct = async (req, res) => {
 
     const nuevoProducto = new ProductoModelo(body);
     await nuevoProducto.save();
-    res.status(201).json({ msg: "Producto creado correctamente", nuevoProducto });
-  } catch (error) {}
+    res.status(201).json({ msg: "Producto creado correctamente", nuevoProducto, status:201 });
+  } catch (error) {
+    res.status(500).json({ msg: "No se pudo crear", error });
+  }
 };
 
 const editProduct = async (req, res) => {
@@ -56,6 +59,7 @@ const editProduct = async (req, res) => {
 
 };
 
+
 const deleteProduct = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -76,4 +80,5 @@ module.exports = {
   createProduct,
   editProduct,
   deleteProduct,
+  
 };

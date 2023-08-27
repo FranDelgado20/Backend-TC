@@ -5,6 +5,7 @@ module.exports = (role) => async (req, res, next) => {
     const token = req.header("auth").replace("Bearer ", "");
     const verify = jwt.verify(token, process.env.SECRET_KEY);
     if (verify && verify.user.role == role) {
+      
       next();
     } else {
       res.status(401).json({ msg: "No estas autorizado" });

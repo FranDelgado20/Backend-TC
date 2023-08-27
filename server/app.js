@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require('morgan')
-const cors = require('cors')
+const cors = require('cors');
+const multer = require("multer");
 class Server {
   constructor() {
     this.app = express()
@@ -11,6 +12,8 @@ class Server {
     this.app.use(express.json())
     this.app.use(morgan('dev'))
     this.app.use(cors())
+
+    
   }
 
   routes() {

@@ -7,8 +7,10 @@ const {
   editProduct,
   deleteProduct,
   getOneProduct,
+  
 } = require("../controllers/productos");
-
+const multer = require('../utils/multer');
+const cloudinary = require('../utils/cloudinaryConfig')
 router.get("/", getAllProducts);
 
 router.get(
@@ -31,6 +33,7 @@ router.post(
   ],
   createProduct
 );
+
 
 router.put(
   "/:id",
