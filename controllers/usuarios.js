@@ -2,8 +2,11 @@ const { validationResult } = require("express-validator");
 const UserModel = require("../models/usuario");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { findByIdAndUpdate } = require("../models/producto");
+
 const CartModel = require("../models/carrito");
+const { sendMail } = require("../utils/mensajesNodemailer");
+
+
 const getAllUsers = async (req, res) => {
   try {
     const usuarios = await UserModel.find();
@@ -30,7 +33,7 @@ const createUser = async (req, res) => {
     return res.status(422).json({ msg: errors.array() });
   }
   try {
-    const userExist = await UserModel.findOne({ username: req.body.username });
+    const userExist = await UserModel.findOne({ user: req.body.user });
     if (userExist) {
       return res.status(422).json({ msg: "USUARIO EXISTENTE" , status:422});
     } else {
@@ -47,8 +50,10 @@ const createUser = async (req, res) => {
       
         await nuevoUsuario.save()
          await nuevoCarrito.save()
+        
      
       res.status(201).json({ msg: "Usuario creado correctamente", nuevoUsuario, status:201 });
+      sendMail(req.body.user)
     }
   } catch (error) {
     res.status(500).json({ msg: "NO SE PUDO CREAR EL USUARIO", error });
@@ -92,7 +97,7 @@ const loginUser = async (req, res) => {
     return res.status(422).json({ msg: errors.array() });
   }
   try {
-    const userExist = await UserModel.findOne({ username: req.body.username });
+    const userExist = await UserModel.findOne({ user: req.body.user });
     if (!userExist) {
       return res.status(400).json({ msg: "EL USUARIO NO EXISTE", status: 400 });
     }

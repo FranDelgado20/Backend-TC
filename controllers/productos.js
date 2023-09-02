@@ -1,7 +1,7 @@
 const ProductoModelo = require("../models/producto");
 const { validationResult } = require("express-validator");
 
-const cloudinary = require('../utils/cloudinaryConfig')
+
 const getAllProducts = async (req, res) => {
   try {
     const obtenerProductos = await ProductoModelo.find();

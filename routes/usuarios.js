@@ -26,15 +26,16 @@ router.get(
 
 
 router.post("/", [
-    check('username', 'El campo nombre esta vacio').notEmpty(),
-    check('username', 'Minimo de 2 caracteres y maximo de 10').isLength({min:2,max:10}),
-    check('pass', 'Minimo de 2 caracteres y maximo de 10').isLength({min:2,max:10}),
+    check('user','Formato email invalido').isEmail(),
+    check('user', 'El campo Email esta vacio').notEmpty(),
+  
+    check('pass', 'Minimo de 2 caracteres y maximo de 10'),
     check('pass', 'El campo contraseña esta vacio').notEmpty()
 ],createUser);
 
 
 router.post('/login', [
-    check('username', 'Campo de nombre vacio').notEmpty(),
+    check('user', 'Campo de nombre vacio').notEmpty(),
     check('pass', 'Campo de contraseña vacio').notEmpty(),
     
 ],loginUser)
