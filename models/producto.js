@@ -18,9 +18,18 @@ const ProductosSchema = new mongoose.Schema({
         type:String,
         
     },
+    stock:{
+        type:String,
+        required:true
+    },
+    categoria:{
+        type:String,
+        required:true
+    },
     descripcion:{
         type:String
     },
+    
     imagen:{
         type:String,
         default:''
